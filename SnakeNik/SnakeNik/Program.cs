@@ -11,20 +11,24 @@ namespace SnakeNik
         static void Main(string[] args)
         {
             Point p1 = new Point(1, 3, '*');
+            p1.Draw();
+
             Point p2 = new Point(4, 5, '#');
-            Point p3 = new Point(7, 0, '^');
-            Point p4 = new Point(6, 6, '&');
+            p2.Draw();
 
-            List<Point> pList = new List<Point>();
-            pList.Add(p1);
-            pList.Add(p2);
-            pList.Add(p3);
-            pList.Add(p4);
+            HorizontalLine line1 = new HorizontalLine(0, 40, 0,  '+');
+            line1.Draw();
 
-            foreach (var item in pList)
-            {
-                item.Draw();
-            }
+            HorizontalLine line2 = new HorizontalLine(0, 40, 20,  '+');
+            line2.Draw();
+
+            VerticalLine line3 = new VerticalLine(0, 0, 20,  '+');
+            line3.Draw();
+
+            VerticalLine line4 = new VerticalLine(40, 0, 20,  '+');
+            line4.Draw();
+
+
 
             Console.ReadLine();
         }
