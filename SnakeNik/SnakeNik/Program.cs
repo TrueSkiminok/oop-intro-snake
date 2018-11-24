@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SnakeNik
@@ -30,6 +31,22 @@ namespace SnakeNik
             Point p = new Point(4, 5, '*');
             Snake snake = new Snake(p, 4, Direction.RIGHT);
             snake.Draw();
+
+            bool @continue = true;
+            while (@continue)
+            {
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    snake.HandleKey(key.Key);
+                    if (key.Key == ConsoleKey.Escape)
+                    {
+                        @continue = false;
+                    }
+                }
+                Thread.Sleep(150);
+                snake.Move();
+            }
 
             Console.ReadLine();
         }
