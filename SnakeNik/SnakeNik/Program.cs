@@ -11,30 +11,32 @@ namespace SnakeNik
     {
         static void Main(string[] args)
         {
+            const int width = 80;
+            const int height = 25;
 
-            Console.SetBufferSize(80, 25);
+            Console.SetBufferSize(width, height);
+            Console.SetWindowSize(width, height);
 
-            // Отрисовка рамок
-            HorizontalLine line1 = new HorizontalLine(0, 78, 0, '+');
-            line1.Draw();
+            Walls walls = new Walls(width, height);
+            walls.Draw();
 
-            HorizontalLine line2 = new HorizontalLine(0, 78, 24, '+');
-            line2.Draw();
-
-            VerticalLine line3 = new VerticalLine(0, 24, 0, '+');
-            line3.Draw();
-
-            VerticalLine line4 = new VerticalLine(0, 24, 78, '+');
-            line4.Draw();
-
-            // Отрисовка точек
+            // Отрисовка змейки
             Point p = new Point(4, 5, '*');
             Snake snake = new Snake(p, 4, Direction.RIGHT);
             snake.Draw();
 
+            //отрисовка еды
+            FoodCreator foodCreator = new FoodCreator(width, height, '$');
+            Point food = foodCreator.CreateFood();
+            food.Draw();
+
             bool @continue = true;
             while (@continue)
             {
+                if (walls.IsHit(snake) || snake.IsHitTail())
+                {
+                    @continue = false;
+                }
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey();
@@ -44,8 +46,14 @@ namespace SnakeNik
                         @continue = false;
                     }
                 }
-                Thread.Sleep(150);
+                Thread.Sleep(100);
                 snake.Move();
+                if (snake.Eat(food))
+                {
+                    food = foodCreator.CreateFood();
+                    food.Draw();
+
+                }
             }
 
             Console.ReadLine();
